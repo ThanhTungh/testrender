@@ -75,9 +75,17 @@ Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin_p
 Route::get('/student/login', [StudentController::class, 'login_view'])->name('student_login'); // login
 Route::post('/student/login-submit', [StudentController::class, 'login_submit'])->name('student_login_submit'); // login submit
 
+Route::get('/student/logout', [StudentController::class, 'logout'])->name('student_logout'); // Logout 
+
 
 Route::get('/student/home', [StudentController::class, 'home'])->name('student_home')->middleware('student:student'); // Homepage view
 
 Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student_dashboard')->middleware('student:student'); // Dashboard view
 
 Route::get('/student/list-faculties', [StudentController::class, 'list_faculties'])->name('student_faculties')->middleware('student:student'); // List faculties view
+
+Route::get('/student/select-faculties', [StudentController::class, 'select_faculties'])->name('student_select_faculties')->middleware('student:student'); // List selected faculties view
+
+Route::post('/student/{student:id}/join-faculty/{faculty:id}', [StudentController::class, 'join_faculty_submit'])->name('student_join_faculty_submit')->middleware('student:student'); // Join faculties submit
+
+Route::get('/student/faculty/{id}', [StudentController::class, 'current_faculty'])->name('student_current_faculty')->middleware('student:student'); // Current faculty view

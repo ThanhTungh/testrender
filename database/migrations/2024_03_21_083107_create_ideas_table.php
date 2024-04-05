@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('description');
             $table->string('tag');
             $table->integer('faculty_id')->nullable();
+            $table->integer('student_id')->nullable();
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

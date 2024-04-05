@@ -236,7 +236,11 @@ class AdminController extends Controller
         }
 
         $current_single_manager->name = $request->name;
-        $current_single_manager->password = Hash::make($request->password);
+        if (!empty($request->password)) {
+            $current_single_manager->password = Hash::make($request->password);
+        } else {
+            unset($current_single_manager->password);
+        }
         $current_single_manager->email = $request->email;
 
         $current_single_manager->update();
@@ -290,7 +294,11 @@ class AdminController extends Controller
         }
 
         $current_single_coordinator->name = $request->name;
-        $current_single_coordinator->password = Hash::make($request->password);
+        if (!empty($request->password)) {
+            $current_single_coordinator->password = Hash::make($request->password);
+        } else {
+            unset($current_single_coordinator->password);
+        }
         $current_single_coordinator->email = $request->email;
 
         $current_single_coordinator->update();
@@ -318,6 +326,7 @@ class AdminController extends Controller
         return view('admin.Website.edit_account_student', compact('single_student'));
     }
 
+    // edit account student submit
     public function edit_account_student_submit(Request $request, $id)
     {
         $current_single_student = Student::where('id', $id)->first();
@@ -343,7 +352,12 @@ class AdminController extends Controller
         }
 
         $current_single_student->name = $request->name;
-        $current_single_student->password = Hash::make($request->password);
+        if (!empty($request->password)) {
+            $current_single_student->password = Hash::make($request->password);
+        } else {
+            unset($current_single_student->password);
+        }
+
         $current_single_student->email = $request->email;
 
         $current_single_student->update();
@@ -401,11 +415,16 @@ class AdminController extends Controller
 
             $select_coordinator = $request->input('coordinator');
             $coordinator = MarketingCoordinator::where('name', $select_coordinator)->first();
-            $check_current_coordinator = Faculty::where('coordinator_id', $coordinator->id)->first();
-            if ($check_current_coordinator) {
-                return redirect()->route('admin_add_faculty')->with('error', 'This teacher was in charge of another faculty!');
+            if (!$coordinator) {
+                $new_faculty->coordinator_id = 0;
+            } else {
+                $check_current_coordinator = Faculty::where('coordinator_id', $coordinator->id)->first();
+                if ($check_current_coordinator) {
+                    return redirect()->route('admin_add_faculty')->with('error', 'This teacher was in charge of another faculty!');
+                } else {
+                    $new_faculty->coordinator_id = $coordinator->id;
+                }
             }
-            $new_faculty->coordinator_id = $coordinator->id;
 
             $new_faculty->save();
         }
@@ -417,7 +436,8 @@ class AdminController extends Controller
     {
         $single_faculty = Faculty::where('id', $id)->first();
         $coordinators = MarketingCoordinator::get();
-        return view('admin.Website.edit_faculty', compact('single_faculty', 'coordinators'));
+        $students = Student::get();
+        return view('admin.Website.edit_faculty', compact('single_faculty', 'coordinators', 'students'));
     }
 
     // Edit faculty submit
@@ -441,6 +461,15 @@ class AdminController extends Controller
                 $single_faculty->coordinator_id = $coordinator->id;
             }
         }
+
+        $select_student = $request->input('student');
+        $student = Student::where('name', $select_student)->first();
+        if ($student->faculty_id != 0) {
+            $student->update();
+            return redirect()->route('admin_edit_faculty', $single_faculty->id)->with('error', 'This student has already taken this faculty!');
+        }
+        $student->faculty_id = $single_faculty->id;
+        $student->update();
 
 
         $single_faculty->update();

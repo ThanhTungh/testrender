@@ -66,17 +66,38 @@
                                 </div>
                             </div>
                             <label>Select a Marketing Coordinator</label>
-                            <p>Previous Marketing Coordinator: 
+                            <p>Previous Marketing Coordinator:
                                 @isset($single_faculty->coordinator->name)
-                                    {{ $single_faculty->coordinator->name }}
+                                {{ $single_faculty->coordinator->name }}
                                 @else
-                                    No Coordinator
+                                No Coordinator
                                 @endisset
                             </p>
                             <div class="input-group mb-3">
                                 <select class="custom-select" id="inputGroupSelect01" name="coordinator">
                                     @foreach ($coordinators as $coordinator)
                                     <option selected>{{ $coordinator->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!-- Select Students -->
+                            <div class="form-group">
+                                <label for="">Choose Students</label>
+                                <p>Students have participated in this faculty: 
+                                    @if($single_faculty->students->count() > 0)
+
+                                    @foreach ($single_faculty->students as $student)
+                                    <br>+ {{ $student->name }}
+                                    @endforeach
+
+                                    @else
+                                    No Student
+
+                                    @endif
+                                </p>
+                                <select class="custom-select" id="inputGroupSelect01" name="student">
+                                    @foreach ($students as $student)
+                                    <option selected>{{ $student->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -32,11 +32,12 @@
                         <h5>Edit {{ $single_coordinator->name }}'s account</h5>
                         <hr>
                         <div class="row">
-                            
-                                <div class="col-md-6">
-                                    <form action="{{ route('admin_edit_account_coordinator_submit', $single_coordinator->id) }}"
-                                        method="POST" enctype="multipart/form-data">
-                                        @csrf
+
+                            <div class="col-md-6">
+                                <form
+                                    action="{{ route('admin_edit_account_coordinator_submit', $single_coordinator->id) }}"
+                                    method="POST" enctype="multipart/form-data">
+                                    @csrf
                                     <div class="form-group">
                                         <label>Name</label>
                                         <input type="text" class="form-control" placeholder="Enter Name" name="name"
@@ -57,15 +58,28 @@
                                         </div>
                                     </div>
                                     <button type="submit" class="btn  btn-primary">Update</button>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Email address</label>
+                                    <input type="email" class="form-control" name="email" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp" placeholder="Enter email"
+                                        value="{{ $single_coordinator->email }}">
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Email address</label>
-                                        <input type="email" class="form-control" name="email" id="exampleInputEmail1"
-                                            aria-describedby="emailHelp" placeholder="Enter email"
-                                            value="{{ $single_coordinator->email }}">
-                                    </div>
+                                <div class="form-group">
+                                    <label>Current faculty:
+                                        @isset($single_coordinator->faculty)
+
+                                        {{ $single_coordinator->faculty->name }}
+                                        
+                                        @else
+                                        No Faculty
+
+                                        @endisset
+
+                                    </label>
                                 </div>
+                            </div>
                             </form>
                         </div>
                     </div>

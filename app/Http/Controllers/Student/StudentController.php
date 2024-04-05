@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Student;
 
 use App\Models\Faculty;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,13 @@ class StudentController extends Controller
         }
     }
 
+    // Logout
+    public function logout()
+    {
+        Auth::guard('student')->logout();
+        return redirect()->route('student_login');
+    }
+
     // Homepage
     public function home()
     {
@@ -53,5 +61,35 @@ class StudentController extends Controller
     {
         $faculties = Faculty::get();
         return view('student.Website.list_faculties', compact('faculties'));
+    }
+
+    // Selected faculties
+    public function select_faculties()
+    {
+        $faculties = Faculty::get();
+        return view('student.Website.select_faculties', compact('faculties'));
+    }
+
+    // Join faculty submit
+    public function join_faculty_submit($student_id, $faculty_id)
+    {
+        $rstudent_id = Student::where('id', $student_id)->first();
+        $rfaculty_id = Faculty::where('id', $faculty_id)->first();
+
+        // dd($rstudent_id->faculties()->as('faculty_id'));
+        if ($rstudent_id->faculties()->faculty_id == $rfaculty_id)
+        {
+            return redirect()->back()->with('error', 'You are already in that faculty!');
+        }
+
+        $rstudent_id->faculties()->attach($rfaculty_id);
+        return redirect()->back()->with('success', 'You have been successfully added to this faculty!');;
+    }
+
+    // Current faculty view
+    public function current_faculty($id)
+    {
+        $single_faculty = Faculty::where('id', $id)->first();
+        return view('student.Website.submit_idea', compact('single_faculty'));
     }
 }

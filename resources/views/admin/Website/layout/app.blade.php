@@ -17,7 +17,9 @@
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
     <link rel="stylesheet" href="{{ asset('css/datepicker.css') }}" >
 
-    <link rel="stylesheet" href="{{ asset('css/ace.min.css') }}" class="ace-main-stylesheet" id="main-ace-style" />
+    <link rel="stylesheet" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/student.css') }}" >
+
 
 </head>
 

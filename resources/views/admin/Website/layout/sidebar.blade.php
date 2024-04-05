@@ -27,7 +27,7 @@
                     <a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">System Management</span></a>
                     <ul class="pcoded-submenu">
                         <li><a href="{{ route('admin_list_accounts') }}" target="">Accounts</a></li>
-                        <li><a href="{{ route('admin_faculties') }}" target="">Events</a></li>
+                        <li><a href="{{ route('admin_faculties') }}" target="">Faculties</a></li>
                     </ul>
                 </li>
             </ul>

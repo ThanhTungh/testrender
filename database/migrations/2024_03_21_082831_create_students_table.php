@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('photo')->nullable();
             $table->string('role')->default('Student');
+            $table->integer('faculty_id')->default(0);
             $table->timestamps();
         });
     }

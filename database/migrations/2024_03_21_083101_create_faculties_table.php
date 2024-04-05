@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('date_start');
             $table->date('date_end');
             $table->integer('coordinator_id')->nullable();
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

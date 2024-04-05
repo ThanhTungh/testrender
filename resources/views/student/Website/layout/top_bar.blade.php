@@ -53,7 +53,7 @@
                         <div class="pro-head">
                             <img alt="No image" src="" class="img-radius">
                             <span>{{ Auth::guard('student')->user()->name }}</span>
-                            <a href="{{ route('admin_logout') }}" class="dud-logout" title="Logout">
+                            <a href="{{ route('student_logout') }}" class="dud-logout" title="Logout">
                                 <i class="feather icon-log-out"></i>
                             </a>
                         </div>

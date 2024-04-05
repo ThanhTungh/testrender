@@ -65,6 +65,25 @@
                                         aria-describedby="emailHelp" placeholder="Enter email"
                                         value="{{ $single_student->email }}">
                                 </div>
+                                <div class="form-group">
+                                    <label>Current faculty:
+                                        {{-- @if($single_student->faculty_id != 0) --}}
+                                        @isset($single_student->faculty)
+                                        {{ $single_student->faculty->name }}
+                                        @else
+                                        @php
+                                            $single_student->faculty_id = 0;
+                                            $single_student->update();
+                                        @endphp
+                                        No Faculty
+                                        @endisset
+                                        
+                                        {{-- @else
+                                        No Faculty
+
+                                        @endif --}}
+                                    </label>
+                                </div>
                             </div>
                             </form>
                         </div>
