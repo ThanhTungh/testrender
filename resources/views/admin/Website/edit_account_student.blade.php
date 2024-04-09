@@ -46,6 +46,9 @@
                                         <label class="floating-label" for="password">Password</label>
                                         <input type="password" class="form-control" id="password" name="password"
                                             placeholder="Enter password">
+                                        @error('password')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <label>Photo</label>
                                     <div class="input-group mb-3">
@@ -72,12 +75,12 @@
                                         {{ $single_student->faculty->name }}
                                         @else
                                         @php
-                                            $single_student->faculty_id = 0;
-                                            $single_student->update();
+                                        $single_student->faculty_id = 0;
+                                        $single_student->update();
                                         @endphp
                                         No Faculty
                                         @endisset
-                                        
+
                                         {{-- @else
                                         No Faculty
 

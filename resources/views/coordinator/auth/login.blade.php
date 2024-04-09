@@ -1,6 +1,6 @@
 @extends('auth.layout.app')
 
-@section('title', 'Admin Login')
+@section('title', 'Coordinator Login')
 
 @section('main_content')
 
@@ -16,7 +16,7 @@
             <div class="col align-items-center flex-col sign-in">
                 <div class="form-wrapper align-items-center">
                     <div class="form sign-in">
-                        <form action="{{ route('admin_login_submit') }}" method="POST">
+                        <form action="{{ route('coordinator_login_submit') }}" method="POST">
                             @csrf
                             <div class="input-group">
                                 <i class='bx bxs-user'></i>
@@ -39,15 +39,9 @@
                             <button>
                                 Sign in
                             </button>
-                            <p>
-                                <b>
-                                    Don't have an Admin's account?
-                                </b>
-                                <a href="{{ route('admin_register_submit') }}"> Click here</a>
-                            </p>
+                            <p><a href="">Admin Login</a></p>
                             <p><a href="">Marketing Manager Login</a></p>
-                            <p><a href="{{ route('coordinator_login') }}">Marketing Coordinator Login</a></p>
-                            <p><a href="{{ route('student_login') }}">Student Login</a></p>
+                            <p><a href="">Student Login</a></p>
                         </form>
                     </div>
 
@@ -59,7 +53,7 @@
             <div class="col align-items-center flex-col">
                 <div class="text sign-in">
                     <h2>
-                        Admin Login
+                        Marketing Coordinator Login
                     </h2>
                     <p>
                         Visit the school's website to come up with unique and

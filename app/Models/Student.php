@@ -17,4 +17,10 @@ class Student extends Authenticatable
     {
         return $this->hasOne(Faculty::class, 'id', 'faculty_id');
     } 
+
+    // Student vs Idea: 1 student has 1 idea in each faculty
+    public function idea(): HasOne
+    {
+        return $this->hasOne(Idea::class, 'student_id');
+    }
 }

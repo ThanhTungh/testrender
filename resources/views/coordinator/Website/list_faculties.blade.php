@@ -1,4 +1,4 @@
-@extends('student.Website.layout.app')
+@extends('coordinator.Website.layout.app')
 
 @section('title', 'List Faculity')
 
@@ -45,14 +45,19 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
-                                            @isset (Auth::guard('student')->user()->idea)
+                                            <a href="{{ route('coordinator_list_ideas', $item->id) }}">
+                                                {{ $item->name }}
+                                            </a>
+                                            
+
+                                            {{-- @isset (Auth::guard('student')->user()->idea) --}}
                                             {{-- $item->ideas --}}
-                                            <a href="{{ route('student_edit_submit_idea_view', $item->id) }}">        
+                                            {{-- <a href="{{ route('student_edit_submit_idea_view', $item->id) }}">        
                                             @else
                                             <a href="{{ route('student_current_faculty', $item->id) }}">
                                             @endisset
                                             
-                                                {{ $item->name }}
+                                                {{ $item->name }} --}}
                                                 {{-- {{ route('student_current_faculty', $item->id) }} --}}
                                                 {{-- {{ route('student_edit_submit_idea', $item->id) }} --}}
                                             </a>
@@ -79,6 +84,6 @@
     </div>
 </div>
 
-@include('student.Website.layout.button_scripts')
+@include('coordinator.Website.layout.button_scripts')
 
 @endsection

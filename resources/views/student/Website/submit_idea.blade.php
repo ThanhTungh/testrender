@@ -49,34 +49,56 @@
                                     <li><b>Deadline <i class="feather mr-2 icon-calendar"></i></b>: {{
                                         $single_faculty->date_start }} - {{ $single_faculty->date_end }}</li>
                                     <li><b>Coordinator assigned <i class="feather mr-2 icon-user"></i></b>:
-                                        @isset($faculty->coordinator->name)
-                                        <a href="#!">
-                                            {{ $single_faculty->coordinator->name }}
-                                        </a>
+                                        @if ($single_faculty->coordinator_id != 0)
+                                        {{ $single_faculty->coordinator->name }}
                                         @else
                                         No Coordinator
-                                        @endisset
+                                        @endif
                                     </li>
                                 </div>
 
                             </form>
                         </div>
                         <div class="col-md-6">
-                            <form>
-                                <!-- Comment !-->
-                                <p><a class="btn mb-1 btn-primary" data-toggle="collapse" href="#multiCollapseExample1">
-                                        <i class="feather mr-2 icon-message-square"></i>Submit a post</a>
-                                <div class="collapse multi-collapse mt-2" id="multiCollapseExample1">
+                            <form action="{{ route('student_submit_idea', $single_faculty->id) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+
+                                <input type="hidden" name="student_id" value="{{ Auth::guard('student')->user()->id }}">
+
+                                {{-- <p><a class="btn mb-1 btn-primary" data-toggle="collapse" href="#multiCollapseExample1">
+                                        <i class="feather mr-2 icon-message-square"></i>Submit an idea</a> --}}
+                                {{-- <div class="collapse multi-collapse mt-2" id="multiCollapseExample1"> --}}
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="form-group">
-                                                <label>Title</label>
-                                                <input type="text" class="form-control" placeholder="Enter Title">
+                                                <label>Topic</label>
+                                                <input type="text" class="form-control" placeholder="Enter Topic"
+                                                    name="topic">
+                                                @error('topic')
+                                                <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+
+                                                <br>
+
+                                                <label>Tag#</label>
+                                                <input type="text" class="form-control" placeholder="Enter Tag#"
+                                                    name="tag">
+                                                @error('tag')
+                                                <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+
+                                                <br>
+
                                                 <label>Upload Files</label>
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="inputGroupFile01">
+                                                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                                        name="file">
                                                     <label class="custom-file-label" for="inputGroupFile01">Choose file
                                                         ( .docx, JPG and PNG only)</label>
+                                                    @error('file')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="custom-control custom-checkbox">
@@ -180,8 +202,7 @@
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
                                     </div>
-                                </div>
-                                </p>
+                                {{-- </div> --}}
                             </form>
                         </div>
                     </div>

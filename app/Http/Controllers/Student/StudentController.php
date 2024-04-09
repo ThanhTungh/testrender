@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Student;
 
+use App\Models\Idea;
 use App\Models\Faculty;
 use App\Models\Student;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -59,31 +61,8 @@ class StudentController extends Controller
     // List faculties
     public function list_faculties()
     {
-        $faculties = Faculty::get();
+        $faculties = Faculty::where('id', Auth::guard('student')->user()->faculty_id)->get();
         return view('student.Website.list_faculties', compact('faculties'));
-    }
-
-    // Selected faculties
-    public function select_faculties()
-    {
-        $faculties = Faculty::get();
-        return view('student.Website.select_faculties', compact('faculties'));
-    }
-
-    // Join faculty submit
-    public function join_faculty_submit($student_id, $faculty_id)
-    {
-        $rstudent_id = Student::where('id', $student_id)->first();
-        $rfaculty_id = Faculty::where('id', $faculty_id)->first();
-
-        // dd($rstudent_id->faculties()->as('faculty_id'));
-        if ($rstudent_id->faculties()->faculty_id == $rfaculty_id)
-        {
-            return redirect()->back()->with('error', 'You are already in that faculty!');
-        }
-
-        $rstudent_id->faculties()->attach($rfaculty_id);
-        return redirect()->back()->with('success', 'You have been successfully added to this faculty!');;
     }
 
     // Current faculty view
@@ -91,5 +70,73 @@ class StudentController extends Controller
     {
         $single_faculty = Faculty::where('id', $id)->first();
         return view('student.Website.submit_idea', compact('single_faculty'));
+    }
+
+    // Submit idea 
+    public function submit_idea(Request $request, $id)
+    {
+        $request->validate([
+            'topic' => 'required',
+            'tag' => 'required',
+            'file' => 'required|mimes:docx,jpg,jpeg,png,gif',
+        ]);
+
+        $single_faculty = Faculty::where('id', $id)->first();
+        $student = Student::where('id', $request->student_id)->first();
+
+        $file = $request->file;
+        $filename = $student->name. '.' .$file->getClientOriginalExtension();
+        // $filename = Str::slug($file->getClientOriginalName());
+        $request->file->move(public_path('/storage/files/'), $filename);
+
+        $new_idea = new Idea();
+        $new_idea->topic = $request->topic;
+        $new_idea->tag = $request->tag;
+        $new_idea->file = $filename;
+        $new_idea->faculty_id = $single_faculty->id;
+        $new_idea->student_id = $student->id;
+
+        $new_idea->save();
+
+        return redirect()->route('student_current_faculty', $single_faculty->id)->with('success', 'Add new successful ideas!');
+    }
+
+    // Download file
+    public function download_file($file)
+    {
+        return response()->download(public_path('/storage/files/' .Auth::guard('student')->user()->idea->file));
+    }
+
+    // View edit submit idea
+    public function edit_submit_idea_view($id)
+    {
+        $single_faculty = Faculty::where('id', $id)->first();
+        return view('student.Website.edit_submit_idea', compact('single_faculty'));
+    }
+
+    // Submit edit idea
+    public function edit_submit_idea(Request $request, $id)
+    {
+        $request->validate([
+            'file' => 'required|mimes:docx,jpg,jpeg,png,gif',
+        ]);   
+
+        $student = Student::where('id', $request->student_id)->first();
+        if (file_exists(public_path('/storage/files/' .Auth::guard('student')->user()->idea->file)) and (!empty(Auth::guard('student')->user()->idea->file))) {
+            unlink(public_path('/storage/files/' .Auth::guard('student')->user()->idea->file));
+        }
+
+        $file = $request->file;
+        $filename = $student->name. '.' .$file->getClientOriginalExtension();
+        // $filename = Str::slug($file->getClientOriginalName());
+        $request->file->move(public_path('/storage/files/'), $filename);
+
+        $single_idea = Idea::where('id', $id)->first();
+        $single_idea->topic = $request->topic;
+        $single_idea->tag = $request->tag;
+        $single_idea->file = $filename;
+        $single_idea->update();
+
+        return redirect()->route('student_edit_submit_idea_view', $single_idea->faculty_id)->with('success', 'Edit idea successfully!');
     }
 }

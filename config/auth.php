@@ -48,6 +48,10 @@ return [
             'driver' => 'session',
             'provider' => 'students',
         ],
+        'coordinator' => [
+            'driver' => 'session',
+            'provider' => 'marketing_coordinators',
+        ],
     ],
 
     /*
@@ -79,6 +83,10 @@ return [
         'students' => [
             'driver' => 'eloquent',
             'model' => App\Models\Student::class,
+        ],
+        'marketing_coordinators' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\MarketingCoordinator::class,
         ],
 
         // 'users' => [
@@ -121,6 +129,12 @@ return [
         ],
         'students' => [
             'provider' => 'students',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'marketing_coordinators' => [
+            'provider' => 'marketing_coordinators',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

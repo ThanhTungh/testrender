@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('ideas', function (Blueprint $table) {
             $table->id();
             $table->string('topic');
-            $table->string('description');
             $table->string('tag');
+            $table->string('file');
             $table->integer('faculty_id')->nullable();
             $table->integer('student_id')->nullable();
             $table->boolean('status')->default(0);

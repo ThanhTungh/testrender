@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\MarketingCoordinator\CoordinatorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,21 +72,37 @@ Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin_p
 /* Marketing Manager */
 
 
+/* Marketing Coordinator */
+Route::get('/coordinator/login', [CoordinatorController::class, 'login_view'])->name('coordinator_login'); // login
+Route::post('/coordinator/login-submit', [CoordinatorController::class, 'login_submit'])->name('coordinator_login_submit'); // login submit
+
+Route::get('/coordinator/logout', [CoordinatorController::class, 'logout'])->name('coordinator_logout'); // Logout 
+
+Route::get('/coordinator/home', [CoordinatorController::class, 'home'])->name('coordinator_home')->middleware('coordinator:coordinator'); // Homepage view
+
+Route::get('/coordinator/profile', [CoordinatorController::class, 'profile'])->name('coordinator_profile')->middleware('coordinator:coordinator'); // Profile view
+
+Route::get('/coordinator/list-faculties', [CoordinatorController::class, 'list_faculties'])->name('coordinator_faculties')->middleware('coordinator:coordinator'); // List faculties view
+
+Route::get('/coordinator/faculty/{id}/list-ideas', [CoordinatorController::class, 'list_ideas'])->name('coordinator_list_ideas')->middleware('coordinator:coordinator'); // List ideas view
+
+Route::get('/coordinator/download/{file}', [CoordinatorController::class, 'download_file'])->name('coordinator_download_file'); // Download file
+
+
 /* Student */
 Route::get('/student/login', [StudentController::class, 'login_view'])->name('student_login'); // login
 Route::post('/student/login-submit', [StudentController::class, 'login_submit'])->name('student_login_submit'); // login submit
 
 Route::get('/student/logout', [StudentController::class, 'logout'])->name('student_logout'); // Logout 
 
-
 Route::get('/student/home', [StudentController::class, 'home'])->name('student_home')->middleware('student:student'); // Homepage view
-
 Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student_dashboard')->middleware('student:student'); // Dashboard view
 
 Route::get('/student/list-faculties', [StudentController::class, 'list_faculties'])->name('student_faculties')->middleware('student:student'); // List faculties view
 
-Route::get('/student/select-faculties', [StudentController::class, 'select_faculties'])->name('student_select_faculties')->middleware('student:student'); // List selected faculties view
-
-Route::post('/student/{student:id}/join-faculty/{faculty:id}', [StudentController::class, 'join_faculty_submit'])->name('student_join_faculty_submit')->middleware('student:student'); // Join faculties submit
-
 Route::get('/student/faculty/{id}', [StudentController::class, 'current_faculty'])->name('student_current_faculty')->middleware('student:student'); // Current faculty view
+Route::post('/student/faculty/{id}/submit-idea', [StudentController::class, 'submit_idea'])->name('student_submit_idea')->middleware('student:student'); // Submit idea
+
+Route::get('/student/faculty/{id}/edit', [StudentController::class, 'edit_submit_idea_view'])->name('student_edit_submit_idea_view')->middleware('student:student'); // View Edit Submit idea
+Route::get('/student/download/{file}', [StudentController::class, 'download_file'])->name('student_download_file')->middleware('student:student'); // Download file
+Route::post('/student/idea/{id}/edit-submit', [StudentController::class, 'edit_submit_idea'])->name('student_edit_submit_idea'); // edit submit idea

@@ -75,6 +75,7 @@
                             </p>
                             <div class="input-group mb-3">
                                 <select class="custom-select" id="inputGroupSelect01" name="coordinator">
+                                    <option selected>...</option>
                                     @foreach ($coordinators as $coordinator)
                                     <option selected>{{ $coordinator->name }}</option>
                                     @endforeach
@@ -96,11 +97,26 @@
                                     @endif
                                 </p>
                                 <select class="custom-select" id="inputGroupSelect01" name="student">
+                                    <option selected>...</option>
                                     @foreach ($students as $student)
                                     <option selected>{{ $student->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            <label>Delete student in faculty</label>
+                            <select class="custom-select" id="inputGroupSelect01" name="delete_student">
+                                <option selected>...</option>
+                                @if($single_faculty->students->count() > 0)
+
+                                @foreach ($single_faculty->students as $student)
+                                <option selected>{{ $student->name }}</option>
+                                @endforeach
+
+                                @endif
+                                {{-- @foreach ($students as $student)
+                                <option selected>{{ $student->name }}</option>
+                                @endforeach --}}
+                            </select>
                         </div>
                         </form>
                     </div>

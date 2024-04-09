@@ -37,7 +37,6 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Faculty</th>
-                                        <th>Description</th>
                                         <th>Time Start</th>
                                         <th>Time End</th>
                                         <th>Coordinator</th>
@@ -50,21 +49,20 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td><a href="{{ route('admin_ideas', $faculty->id) }}">{{ $faculty->name }}</a>
                                         </td>
-                                        <td>{{ $faculty->description }}</td>
                                         <td>{{ $faculty->date_start }}</td>
                                         <td>{{ $faculty->date_end }}</td>
                                         <td>
                                             @isset($faculty->coordinator->name)
                                             {{ $faculty->coordinator->name }}
                                             @else
+                                            @php
+                                                $faculty->coordinator_id = 0;
+                                                $faculty->update();
+                                            @endphp
                                             No Coordinator
                                             @endisset
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                data-target="#exampleModalCenter"><i
-                                                    class="feather mr-2 icon-info"></i>View info
-                                            </button>
 
                                             <a href="{{ route('admin_edit_faculty', $faculty->id) }}"><button
                                                     type="button" class="btn btn-info"><i
@@ -76,40 +74,6 @@
                                             </a>
                                         </td>
                                     </tr>
-
-                                    <div id="exampleModalCenter" class="modal fade" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Description
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close"><span
-                                                            aria-hidden="true">&times;</span></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p class="mb-0" style="word-wrap: break-word;">{{
-                                                        $faculty->description }}</p>
-                                                    <br>
-                                                    <p class="mb-0" style="word-wrap: break-word;">Coordinator
-                                                        assigned :
-                                                        <b>
-                                                            @isset($faculty->coordinator->name)
-                                                            {{ $faculty->coordinator->name }}
-                                                            @else
-                                                            No Coordinator
-                                                            @endisset
-                                                        </b>
-                                                    </p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn  btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     @endforeach
                                 </tbody>

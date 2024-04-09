@@ -9,10 +9,10 @@
         <div class="navbar-content scroll-div" >
             
                 <div class="main-menu-header">
-                    <a href="{{ route('student_home') }}">
-                    <div style="font-size: 25px">
+                    <a href="">
+                    <div style="font-size: 20px">
                     <span><i class="feather icon-home" style="padding-right: 5px;"></span></i> 
-                    Student Page </div>
+                    Coordinator Page </div>
                     </a>
                 </div>
             
@@ -21,12 +21,13 @@
                     <label>Navigation</label>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('student_dashboard') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-bar-chart"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+                    <a href="" class="nav-link "><span class="pcoded-micon"><i class="feather icon-bar-chart"></i></span><span class="pcoded-mtext">Dashboard</span></a>
                 </li>
                 <li class="nav-item pcoded-hasmenu">
                     <a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Event</span></a>
                     <ul class="pcoded-submenu">
-                        <li><a href="{{ route('student_faculties') }}" target="">Faculties</a></li>
+                        <li><a href="{{ route('coordinator_faculties') }}" target="">Faculties</a></li>
+                        <li><a href="" target="">Outstanding ideas</a></li>
                     </ul>
                 </li>
             </ul>
